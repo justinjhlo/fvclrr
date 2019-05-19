@@ -1,1 +1,3 @@
 # fvclrr
+
+This is the repository for the package `fvclrr`, which provides functions that allow computation of likelihood ratios for the purpose of forensic voice comparisons. Parts of the functions in the MVKD procedure are based on MATLAB code by Geoff Morrison. Citations can be found in functions based on other code and logic. It was, and still is, largely intended for my personal use in forensic phonetic research, which means it only is designed to accommodate a very limited set of specifications.
