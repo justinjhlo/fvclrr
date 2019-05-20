@@ -22,15 +22,21 @@ multivar_kernel_LR <- function(sus_data, off_data, bg, bg_stat = NULL){
 
     # Calculate speaker means and covariance matrices in advance for multivar_kernel_LR to extract
     background_mean <- colMeans(subset(bg_data, select = -speaker))
-    background_stat <- list(
+    bg_stat <- list(
       bg_means = lapply(background_data_by_speaker, colMeans),
-      bg_within_covar = mapply(function(x, y) nrow(x) * y, background_data_by_speaker, lapply(background_data_by_speaker, sse), SIMPLIFY = FALSE)
+      bg_within_covar = mapply(function(x, y) nrow(x) * y,
+                               background_data_by_speaker,
+                               lapply(background_data_by_speaker, sse),
+                               SIMPLIFY = FALSE)
     )
-    background_stat[["bg_between"]] <- mapply(function(x, y) nrow(x) * tcrossprod(y - background_mean), background_data_by_speaker, background_stat$bg_means, SIMPLIFY = FALSE)
+    bg_stat[["bg_between"]] <- mapply(function(x, y) nrow(x) * tcrossprod(y - background_mean),
+                                      background_data_by_speaker,
+                                      bg_stat$bg_means,
+                                      SIMPLIFY = FALSE)
   }
 
   # Number of speakers in the background
-  num_speakers <- nrow(bg_stat)
+  num_speakers <- length(bg_stat[[1]])
 
   # Extract speaker means and covariance matrices
   bg_means <- do.call(rbind, bg_stat$bg_means)

@@ -161,7 +161,7 @@ MVKD_loop <- function(data, test_speakers = NULL, bg_speakers = NULL, data_col =
   }
 
   # Cllr
-  c <- cllr(LR_SS, LR_DS, log = FALSE)
+  c <- cllr(LR_SS, LR_DS, log = TRUE)
 
   # EER
   eer <- EER_linear(LR_SS, LR_DS)
