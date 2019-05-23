@@ -28,7 +28,8 @@ EER_linear <- function(LR_SS, LR_DS, log = FALSE){
   min_threshold <- min(LR_SS, LR_DS)
   max_threshold <- max(LR_SS, LR_DS)
 
-  if(max_threshold == Inf) max_threshold <- .Machine$double.xmax
+  if(max_threshold == Inf) max_threshold <- log(.Machine$double.xmax)
+  if(min_threshold == -Inf) min_threshold <- log(.Machine$double.xmin)
 
   SS_corr <- numeric(num_thresholds)
   DS_corr <- SS_corr
