@@ -83,6 +83,9 @@ multivar_kernel_LR <- function(sus_data, off_data, bg, bg_stat = NULL){
     log(dist_bg_to_off) -
     log(dist_bg_to_sus)
 
+  if(llr == Inf) llr <- log(.Machine$double.xmax)
+  if(llr == -Inf) llr <- log(.Machine$double.xmin)
+
   return(llr)
 }
 
