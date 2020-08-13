@@ -1,7 +1,7 @@
 Package: fvclrr
 Type: Package
 Title: Likelihood Ratio Calculation and Testing in Forensic Voice Comparison
-Version: 1.0.5
+Version: 1.1.0
 Date: 2020-08-10
 Author: Justin Lo <justinlo2004@gmail.com>
 Maintainer: Justin Lo <justinlo2004@gmail.com>
@@ -12,4 +12,4 @@ Encoding: UTF-8
 LazyData: true
 Depends: mclust, mvnfast
 Suggests: dplyr, purrr, tibble, tidyr, ggplot2, ggrepel
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

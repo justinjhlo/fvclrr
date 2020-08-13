@@ -12,6 +12,7 @@ LR_test(
   test_data = NULL,
   test_data_col = NULL,
   cross_full = TRUE,
+  bg_from = c("data", "test_data", "both"),
   mode = c("gmm_ubm", "mvkd"),
   ...
 )
@@ -25,11 +26,13 @@ LR_test(
 
 \item{data_col}{(optional) A vector. Specifies which columns in \code{data} to take into account in LR calculation. Uses all available columns if unspecified (excludes first column, which identifies speakers).}
 
-\item{test_data}{(optional) A data frame in the same format as \code{data}. If specified, offender/disputed-speaker data will be taken from here. Suspect/known-speaker data and background data will be taken from \code{data}.}
+\item{test_data}{(optional) A data frame in the same format as \code{data}. If specified, suspect/known-speaker data will be taken from here. Offender/disputed-speaker data will be taken from \code{data}. By default, background data follow offender and come from \code{data}, but this behaviour can be changed using \code{bg_from}.}
 
 \item{test_data_col}{(optional) A vector. Specifies which columns in \code{data} to take into account in LR calculation. Follows \code{data_col} if unspecified.}
 
-\item{cross_full}{(optional) Boolean. When \code{test_data} and \code{test_data_col} are specified, determines if the full set of data from each speaker are used in the comparison. Default TRUE. If FALSE, suspect data come from first half of \code{data} and questioned data come from second half of \code{test_data}, to simulate the scenario when \code{test_data} is not specified. Useful for keeping number of data points constant, in the case of comparisons involving non-contemporaneous recordings or mismatched conditions and the results of which are compared with contemporaneous comparisons.}
+\item{cross_full}{(optional) Boolean. When \code{test_data} and \code{test_data_col} are specified, determines if the full set of data from each speaker are used in the comparison. Default TRUE. If FALSE, suspect data come from first half of \code{test_data} and questioned data come from second half of \code{data}, to simulate the scenario when \code{test_data} is not specified. Useful for keeping number of data points constant, in the case of comparisons involving non-contemporaneous recordings or mismatched conditions and the results of which are compared with contemporaneous comparisons.}
+
+\item{bg_from}{(optional) "data" (default), "test_data" or "both". Determines where the background data come from. "both" pools data from the same speakers in \code{data} and \code{test_data}.}
 
 \item{mode}{"gmm_ubm" (default) or "mvkd".}
 

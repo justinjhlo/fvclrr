@@ -6,9 +6,10 @@
 #' @param test_speakers (optional) A vector. Specifies the set of speakers for which LR calculations should be derived. Takes all speakers from \code{data} if unspecified.
 #' @param bg_speakers (optional) A vector. Specifies the set of speakers to form the background model for LR calculations. Equal to \code{test_speakers} if unspecified.
 #' @param data_col (optional) A vector. Specifies which columns in \code{data} to take into account in LR calculation. Uses all available columns if unspecified (excludes first column, which identifies speakers).
-#' @param test_data (optional) A data frame in the same format as \code{data}. If specified, offender/disputed-speaker data will be taken from here. Suspect/known-speaker data and background data will be taken from \code{data}.
+#' @param test_data (optional) A data frame in the same format as \code{data}. If specified, suspect/known-speaker data will be taken from here. Offender/disputed-speaker data will be taken from \code{data}. By default, background data follow offender and come from \code{data}, but this behaviour can be changed using \code{bg_from}.
 #' @param test_data_col (optional) A vector. Specifies which columns in \code{data} to take into account in LR calculation. Follows \code{data_col} if unspecified.
-#' @param cross_full (optional) Boolean. When \code{test_data} and \code{test_data_col} are specified, determines if the full set of data from each speaker are used in the comparison. Default TRUE. If FALSE, suspect data come from first half of \code{data} and questioned data come from second half of \code{test_data}, to simulate the scenario when \code{test_data} is not specified. Useful for keeping number of data points constant, in the case of comparisons involving non-contemporaneous recordings or mismatched conditions and the results of which are compared with contemporaneous comparisons.
+#' @param cross_full (optional) Boolean. When \code{test_data} and \code{test_data_col} are specified, determines if the full set of data from each speaker are used in the comparison. Default TRUE. If FALSE, suspect data come from first half of \code{test_data} and questioned data come from second half of \code{data}, to simulate the scenario when \code{test_data} is not specified. Useful for keeping number of data points constant, in the case of comparisons involving non-contemporaneous recordings or mismatched conditions and the results of which are compared with contemporaneous comparisons.
+#' @param bg_from (optional) "data" (default), "test_data" or "both". Determines where the background data come from. "both" pools data from the same speakers in \code{data} and \code{test_data}.
 #' @param mode "gmm_ubm" (default) or "mvkd".
 #' @param ... Additional arguments, e.g. \code{G} (default 8) to specify how many components to use in GMM-UBM and \code{r} (default 16) to specify relevance factor for the speaker-adaptation step in GMM-UBM.
 #' @return A named list of 3 items:
@@ -17,7 +18,7 @@
 #' * \code{eer}: Numeric. Reports the equal error rate (between 0 and 1).
 #' @md
 #' @export
-LR_test <- function(data, test_speakers = NULL, bg_speakers = NULL, data_col = NULL, test_data = NULL, test_data_col = NULL, cross_full = TRUE, mode = c("gmm_ubm", "mvkd"), ...){
+LR_test <- function(data, test_speakers = NULL, bg_speakers = NULL, data_col = NULL, test_data = NULL, test_data_col = NULL, cross_full = TRUE, bg_from = c("data", "test_data", "both"), mode = c("gmm_ubm", "mvkd"), ...){
   mode <- match.arg(mode)
 
   colnames(data)[1] <- "speaker"
@@ -49,7 +50,13 @@ LR_test <- function(data, test_speakers = NULL, bg_speakers = NULL, data_col = N
     test_data <- test_data[complete.cases(test_data), ]
   }
 
-  background_data_full <- data[which(data$speaker %in% bg_speakers), ]
+  if(!is.null(test_data)){
+    if(bg_from == "test_data") background_data_full <- test_data[which(data$speaker %in% bg_speakers), ]
+    else if(bg_from == "both") background_data_full <- rbind(data[which(data$speaker %in% bg_speakers), ], test_data[which(data$speaker %in% bg_speakers), ])
+    else background_data_full <- data[which(data$speaker %in% bg_speakers), ]
+  } else {
+    background_data_full <- data[which(data$speaker %in% bg_speakers), ]
+  }
 
   # Retrieve suspect and offender data for each test speaker from data (and test_data, if applicable)
   # If test_data not specified: suspect data come from first half of data, offender data come from second half of data
@@ -60,14 +67,14 @@ LR_test <- function(data, test_speakers = NULL, bg_speakers = NULL, data_col = N
       offender_data = lapply(by_speaker_data, extract_data_half, half = "second")
       )
   } else {
-    # (Updated 2020-08-10) If test_data specified and cross_full is TRUE: suspect data come from test_data, offender data come from data, background is derived from data
+    # (Updated 2020-08-10) If test_data specified and cross_full is TRUE: suspect data come from test_data, offender data come from data
     if(cross_full){
       by_speaker_data <- list(
         suspect_data = speaker_filter(split_by_speaker(test_data), test_speakers),
         offender_data = speaker_filter(split_by_speaker(data), test_speakers)
         )
     } else {
-      # (Updated 2020-08-10) If test_data specified and cross_full is FALSE: suspect data come from first half of test_data, offender data come from second half of data, background is derived from data
+      # (Updated 2020-08-10) If test_data specified and cross_full is FALSE: suspect data come from first half of test_data, offender data come from second half of data
       by_speaker_data <- list(
         suspect_data = speaker_filter(lapply(split_by_speaker(test_data),
                                              extract_data_half, half = "first"),
