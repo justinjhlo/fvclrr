@@ -4,9 +4,15 @@
 \alias{MVKD_loop}
 \title{Performs LR calculation on a set of speakers}
 \usage{
-MVKD_loop(data, test_speakers = NULL, bg_speakers = NULL,
-  data_col = NULL, test_data = NULL, test_data_col = NULL,
-  cross_full = TRUE)
+MVKD_loop(
+  data,
+  test_speakers = NULL,
+  bg_speakers = NULL,
+  data_col = NULL,
+  test_data = NULL,
+  test_data_col = NULL,
+  cross_full = TRUE
+)
 }
 \arguments{
 \item{data}{A data frame. The first column identifies speakers.}

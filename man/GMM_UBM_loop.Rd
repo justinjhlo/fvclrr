@@ -4,8 +4,14 @@
 \alias{GMM_UBM_loop}
 \title{Performs GMM-UBM-based LR calculation on a set of speakers}
 \usage{
-GMM_UBM_loop(bg_data, by_speaker_data, test_speakers, G = 8, r = 16,
-  background_model = NULL)
+GMM_UBM_loop(
+  bg_data,
+  by_speaker_data,
+  test_speakers,
+  G = 8,
+  r = 16,
+  background_model = NULL
+)
 }
 \arguments{
 \item{bg_data}{A data frame of background data. The first column identifies speakers. All other columns contain data.}

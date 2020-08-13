@@ -29,6 +29,7 @@ GMM_UBM_loop <- function(bg_data, by_speaker_data, test_speakers, G = 8, r = 16,
 
   bg_pro <- UBM$parameters$pro
   bg_mean <- t(UBM$parameters$mean)
+  if(data_dim == 1) bg_mean <- t(bg_mean)
   bg_variance <- array_to_list(UBM$parameters$variance$sigma, data_dim)
 
   # Iterate through test-speaker set to perform same- and different-speaker comparisons
@@ -47,14 +48,24 @@ GMM_UBM_loop <- function(bg_data, by_speaker_data, test_speakers, G = 8, r = 16,
     sus_pro <- sus_pro / sum(sus_pro)
 
     sus_mean <- adapt_coeff * suff_mean + (1 - adapt_coeff) * bg_mean
-    sus_variance <- mapply("+",
-                           mapply("*", bg_variance, 1 - adapt_coeff, SIMPLIFY = FALSE),
-                           lapply(split(suff_variance * adapt_coeff +
-                                          bg_mean * bg_mean * (1 - adapt_coeff) -
-                                          sus_mean * sus_mean,
-                                        seq(G)),
-                                  diag),
-                           SIMPLIFY = FALSE)
+    if(data_dim == 1){
+      sus_variance <- mapply("+",
+                             mapply("*", bg_variance, 1 - adapt_coeff, SIMPLIFY = FALSE),
+                             split(suff_variance * adapt_coeff +
+                                     bg_mean * bg_mean * (1 - adapt_coeff) -
+                                     sus_mean * sus_mean,
+                                   seq(G)),
+                             SIMPLIFY = FALSE)
+    } else {
+      sus_variance <- mapply("+",
+                             mapply("*", bg_variance, 1 - adapt_coeff, SIMPLIFY = FALSE),
+                             lapply(split(suff_variance * adapt_coeff +
+                                            bg_mean * bg_mean * (1 - adapt_coeff) -
+                                            sus_mean * sus_mean,
+                                          seq(G)),
+                                    diag),
+                             SIMPLIFY = FALSE)
+    }
 
     for(off in test_speakers){
       offender_data <- as.matrix(by_speaker_data$offender_data[[off]])

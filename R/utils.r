@@ -1,6 +1,6 @@
 `%||%` <- function(x, y) if(!is.null(x)) x else y
 
-array_to_list <- function(data_array, data_dim) lapply(split(data_array, slice.index(data_array, 3)), function(x) matrix(x, nrow = data_dim))
+array_to_list <- function(data_array, data_dim) lapply(split(data_array, slice.index(data_array, ifelse(data_dim == 1, 1, 3))), function(x) matrix(x, nrow = data_dim))
 
 extract_data_half <- function(data_frame, half = c("first", "second")){
   if(half == "first") return(data_frame[1:ceiling(nrow(data_frame)/2), ])

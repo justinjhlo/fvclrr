@@ -60,19 +60,19 @@ LR_test <- function(data, test_speakers = NULL, bg_speakers = NULL, data_col = N
       offender_data = lapply(by_speaker_data, extract_data_half, half = "second")
       )
   } else {
-    # If test_data specified and cross_full is TRUE: suspect data come from data, offender data come from test_data
+    # (Updated 2020-08-10) If test_data specified and cross_full is TRUE: suspect data come from test_data, offender data come from data, background is derived from data
     if(cross_full){
       by_speaker_data <- list(
-        suspect_data = speaker_filter(split_by_speaker(data), test_speakers),
-        offender_data = speaker_filter(split_by_speaker(test_data), test_speakers)
+        suspect_data = speaker_filter(split_by_speaker(test_data), test_speakers),
+        offender_data = speaker_filter(split_by_speaker(data), test_speakers)
         )
     } else {
-      # If test_data specified and cross_full is FALSE: suspect data come from first half of data, offender data come from second half of test_data
+      # (Updated 2020-08-10) If test_data specified and cross_full is FALSE: suspect data come from first half of test_data, offender data come from second half of data, background is derived from data
       by_speaker_data <- list(
-        suspect_data = speaker_filter(lapply(split_by_speaker(data),
+        suspect_data = speaker_filter(lapply(split_by_speaker(test_data),
                                              extract_data_half, half = "first"),
                                       test_speakers),
-        offender_data = speaker_filter(lapply(split_by_speaker(test_data),
+        offender_data = speaker_filter(lapply(split_by_speaker(data),
                                               extract_data_half, half = "second"),
                                        test_speakers)
         )

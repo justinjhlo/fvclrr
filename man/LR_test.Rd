@@ -4,9 +4,17 @@
 \alias{LR_test}
 \title{Performs LR calculation on a set of speakers}
 \usage{
-LR_test(data, test_speakers = NULL, bg_speakers = NULL,
-  data_col = NULL, test_data = NULL, test_data_col = NULL,
-  cross_full = TRUE, mode = c("gmm_ubm", "mvkd"), ...)
+LR_test(
+  data,
+  test_speakers = NULL,
+  bg_speakers = NULL,
+  data_col = NULL,
+  test_data = NULL,
+  test_data_col = NULL,
+  cross_full = TRUE,
+  mode = c("gmm_ubm", "mvkd"),
+  ...
+)
 }
 \arguments{
 \item{data}{A data frame. The first column identifies speakers.}
