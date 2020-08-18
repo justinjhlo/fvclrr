@@ -51,8 +51,8 @@ LR_test <- function(data, test_speakers = NULL, bg_speakers = NULL, data_col = N
   }
 
   if(!is.null(test_data)){
-    if(bg_from == "test_data") background_data_full <- test_data[which(data$speaker %in% bg_speakers), ]
-    else if(bg_from == "both") background_data_full <- rbind(data[which(data$speaker %in% bg_speakers), ], test_data[which(data$speaker %in% bg_speakers), ])
+    if(bg_from == "test_data") background_data_full <- test_data[which(test_data$speaker %in% bg_speakers), ]
+    else if(bg_from == "both") background_data_full <- rbind(data[which(data$speaker %in% bg_speakers), ], test_data[which(test_data$speaker %in% bg_speakers), ])
     else background_data_full <- data[which(data$speaker %in% bg_speakers), ]
   } else {
     background_data_full <- data[which(data$speaker %in% bg_speakers), ]
