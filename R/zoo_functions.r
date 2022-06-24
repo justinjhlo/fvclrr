@@ -4,9 +4,6 @@
 #'
 #' @param LR.matrix Data frame of likelihood ratio scores. Row and column names must correspond to the speaker names/identifiers. LR scores should not be transformed in any way (e.g. logarithmically).
 #' @return Data frame where each row contains the SS and DS mean scores for a speaker.
-#' @importFrom dplyr arrange group_by mutate right_join summarise
-#' @importFrom tidyr gather
-#' @export
 
 zooify <- function(LR.matrix){
   # Convert raw LR matrix to data frame where each row is a log10LR entry
@@ -24,8 +21,6 @@ zooify <- function(LR.matrix){
 #'
 #' @param LR.zoo Zoo data frame returned by \code{zooify}.
 #' @param quantile Plot line segments marking quantiles of scores if TRUE.
-#' @import ggplot2 ggrepel
-#' @export
 
 zooplot <- function(LR.zoo, quantile = TRUE){
   zoop <- ggplot(LR.zoo, aes(SS, DS)) + geom_point() + scale_y_reverse() + geom_text_repel(aes(label = speaker))
