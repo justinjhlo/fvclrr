@@ -13,12 +13,13 @@
 #' @param mode "gmm_ubm" (default) or "mvkd".
 #' @param ... Additional arguments, e.g. \code{G} (default 8) to specify how many components to use in GMM-UBM and \code{r} (default 16) to specify relevance factor for the speaker-adaptation step in GMM-UBM.
 #' @return A named list of 3 items:
-#' * \code{likelihood_ratio_matrix}: A data frame. Rows and columns are named after the speaker identifiers. Each row and column represents a speaker as suspect and offender respectively, and each cell contains a single LR score.
+#' * \code{likelihood_ratio_matrix}: A data frame. Rows and columns are named after the speaker identifiers. Each row and column represents a speaker as suspect and offender respectively, and each cell contains a single LR score (in natural log).
 #' * \code{cllr}: Numeric. Reports the logLR cost.
 #' * \code{eer}: Numeric. Reports the equal error rate (between 0 and 1).
 #' @md
 #' @export
 LR_test <- function(data, test_speakers = NULL, bg_speakers = NULL, data_col = NULL, test_data = NULL, test_data_col = NULL, cross_full = TRUE, bg_from = c("data", "test_data", "both"), mode = c("gmm_ubm", "mvkd"), ...){
+  bg_from <- match.arg(bg_from)
   mode <- match.arg(mode)
 
   colnames(data)[1] <- "speaker"

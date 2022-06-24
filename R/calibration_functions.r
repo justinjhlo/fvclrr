@@ -9,7 +9,7 @@
 #' @return A named list following the exact format as MVKD_loop: likelihood_ratio_matrix, cllr and eer.
 #' @export
 
-calibration_fusion <- function(test_list, dev_list = NULL, log = TRUE){
+calibration_fusion <- function(test_list, dev_list = NULL, log = TRUE, ...){
   dev_list <- dev_list %||% test_list
   d <- length(test_list)
   speakers <- colnames(test_list[[1]])
@@ -28,7 +28,7 @@ calibration_fusion <- function(test_list, dev_list = NULL, log = TRUE){
   train_targets <- t(sapply(dev_list, diag))
   train_non_targets <- t(sapply(dev_list, non_diag))
 
-  weights <- train_llr_fusion_robust(train_targets, train_non_targets)
+  weights <- train_llr_fusion_robust(train_targets, train_non_targets, ...)
 
   # Fuse and calibrate test LR matrices
   fused_LR <- Reduce('+', mapply("*", weights, test_list, SIMPLIFY = FALSE))

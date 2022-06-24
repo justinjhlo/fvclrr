@@ -4,7 +4,7 @@
 \alias{calibration_fusion}
 \title{Fuses multiple LR systems and provides single calibrated output}
 \usage{
-calibration_fusion(test_list, dev_list = NULL, log = TRUE)
+calibration_fusion(test_list, dev_list = NULL, log = TRUE, ...)
 }
 \arguments{
 \item{test_list}{A list of LR matrices to be calibrated and fused. The input must be a LIST. Any data frame or matrix will work, as long as it follows the same format as the output in MVKD_loop (a row for each suspect, a column for each offender, LR value not transformed in any way). The LR matrices should all be of the same dimensions.}

@@ -41,7 +41,7 @@ LR_test(
 \value{
 A named list of 3 items:
 \itemize{
-\item \code{likelihood_ratio_matrix}: A data frame. Rows and columns are named after the speaker identifiers. Each row and column represents a speaker as suspect and offender respectively, and each cell contains a single LR score.
+\item \code{likelihood_ratio_matrix}: A data frame. Rows and columns are named after the speaker identifiers. Each row and column represents a speaker as suspect and offender respectively, and each cell contains a single LR score (in natural log).
 \item \code{cllr}: Numeric. Reports the logLR cost.
 \item \code{eer}: Numeric. Reports the equal error rate (between 0 and 1).
 }
