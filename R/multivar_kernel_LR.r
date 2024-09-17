@@ -40,7 +40,7 @@ multivar_kernel_LR <- function(sus_data, off_data, bg, bg_stat = NULL){
 
   # Extract speaker means and covariance matrices
   bg_means <- do.call(rbind, bg_stat$bg_means)
-  bg_within_covar <- Reduce('+', bg_stat$bg_within_covar) * num_speakers / (num_obs * (num_obs - num_speakers))
+  bg_within_covar <- (Reduce('+', bg_stat$bg_within_covar) * num_speakers / num_obs) / (num_obs - num_speakers)
   bg_between <- Reduce('+', bg_stat$bg_between)
   bg_within_covar_inv <- solve(bg_within_covar)
 
@@ -65,7 +65,7 @@ multivar_kernel_LR <- function(sus_data, off_data, bg, bg_stat = NULL){
 
   off_kern_inv <- solve(bg_within_covar / n_offdata + kernel)
   sus_kern_inv <- solve(bg_within_covar / n_susdata + kernel)
-  off_sus_covar_inv <- bg_within_covar_inv * n_susdata * n_offdata / (n_susdata + n_offdata)
+  off_sus_covar_inv <- (bg_within_covar_inv / (n_susdata + n_offdata)) * n_susdata * n_offdata
   off_sus_kern_inv <- solve(bg_within_covar / (n_susdata + n_offdata) + kernel)
 
   kernden_at_typicality <- sum(apply(mean_distance(bg_means, sus_off_mean_typicality), 1, kernel_build, kern_inv = off_sus_kern_inv))
