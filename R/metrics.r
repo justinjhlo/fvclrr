@@ -1,3 +1,11 @@
+#' Calculates the log likelihood ratio cost
+#' 
+#' @param LLR_SS A vector of LRs from same-speaker comparisons.
+#' @param LLR_DS A vector of LRs from different-speaker comparisons.
+#' @param log (optional) Boolean. Specifies whether LRs supplied are already in (natural) log form (default TRUE).
+#' @return A single numerical Cllr.
+#' @md
+#' @export
 cllr <- function(LLR_SS, LLR_DS, log = TRUE){
   # More numerically robust implementation to work better with log LRs (using Maechler, 2012)
   # See: Maechler, M. (2012). Accurately Computing log(1-exp(-|a|)) Assessed by the Rmpfr package.
@@ -16,6 +24,14 @@ cllr <- function(LLR_SS, LLR_DS, log = TRUE){
   return(c)
 }
 
+#' Calculates the equal error rate
+#' 
+#' @param LLR_SS A vector of LRs from same-speaker comparisons.
+#' @param LLR_DS A vector of LRs from different-speaker comparisons.
+#' @param log (optional) Boolean. Specifies whether LRs supplied are already in (natural) log form (default FALSE).
+#' @return A single numerical EER between 0 and 1 (inclusive).
+#' @md
+#' @export
 EER_linear <- function(LR_SS, LR_DS, log = FALSE){
   # Convert to log LR if not already logged
   if(!log){

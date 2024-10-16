@@ -1,14 +1,14 @@
 Package: fvclrr
 Type: Package
 Title: Likelihood Ratio Calculation and Testing in Forensic Voice Comparison
-Version: 1.1.5
-Date: 2024-09-17
-Author: Justin Lo <justinlo2004@gmail.com>
-Maintainer: Justin Lo <justinlo2004@gmail.com>
+Version: 1.1.6
+Date: 2024-10-16
+Author: Justin J. H. Lo <justinlo2004@gmail.com>
+Maintainer: Justin J. H. Lo <justinlo2004@gmail.com>
 Description: This package provides a suite of functions that enable the application of likelihood ratios in forensic voice comparison.
     The fundamentals are based on the work by Aitken and Lucy (2004) and Reynolds et al. (2000), as well as MATLAB scripts by Hughes (2015) and Morrison (2007, 2009). Performance metrics and other analytic tools are incorporated so that system testing can be performed.
 License: CC0
 Encoding: UTF-8
 LazyData: true
 Imports: mclust, mvnfast, dplyr, purrr, tibble, tidyr
-RoxygenNote: 7.1.2
+RoxygenNote: 7.3.2
