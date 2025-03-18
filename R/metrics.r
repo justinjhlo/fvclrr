@@ -9,6 +9,14 @@
 cllr <- function(LLR_SS, LLR_DS, log = TRUE){
   # More numerically robust implementation to work better with log LRs (using Maechler, 2012)
   # See: Maechler, M. (2012). Accurately Computing log(1-exp(-|a|)) Assessed by the Rmpfr package.
+  
+  # (Updated 2025-03-18) generates warning if contains NA
+  if(anyNA(LLR_SS)) warning("cllr: LLR_SS contains NA values")
+  if(anyNA(LLR_DS)) warning("cllr: LLR_DS contains NA values")
+  
+  # (Updated 2025-03-18) removes any NA if present
+  LLR_SS <- LLR_SS[!is.na(LLR_SS)]
+  LLR_DS <- LLR_DS[!is.na(LLR_DS)]
 
   if(!log){
     LLR_SS <- log(LLR_SS)
@@ -33,6 +41,14 @@ cllr <- function(LLR_SS, LLR_DS, log = TRUE){
 #' @md
 #' @export
 EER_linear <- function(LR_SS, LR_DS, log = FALSE){
+  # (Updated 2025-03-18) generates warning if contains NA
+  if(anyNA(LLR_SS)) warning("EER: LLR_SS contains NA values")
+  if(anyNA(LLR_DS)) warning("EER: LLR_DS contains NA values")
+  
+  # (Updated 2025-03-18) removes any NA if present
+  LLR_SS <- LLR_SS[!is.na(LLR_SS)]
+  LLR_DS <- LLR_DS[!is.na(LLR_DS)]
+  
   # Convert to log LR if not already logged
   if(!log){
     LR_SS <- log(LR_SS)

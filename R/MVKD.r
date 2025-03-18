@@ -53,10 +53,17 @@ MVKD <- function(bg_data, by_speaker_data, test_speakers, bg_speakers){
         else removed_speaker <- off
       }
 
-      if(!test_in_bg) llr <- multivar_kernel_LR(suspect_data, offender_data, bg_data, background_stat)
-      else llr <- multivar_kernel_LR(suspect_data, offender_data,
-                                    bg_data[-which(bg_data$speaker %in% c(sus, removed_speaker)), ],
-                                    background_stat_remove_speaker(background_stat, c(sus, removed_speaker)))
+      llr <- tryCatch({
+        if(!test_in_bg) multivar_kernel_LR(suspect_data, offender_data, bg_data, background_stat)
+        else multivar_kernel_LR(suspect_data, offender_data,
+                                       bg_data[-which(bg_data$speaker %in% c(sus, removed_speaker)), ],
+                                       background_stat_remove_speaker(background_stat, c(sus, removed_speaker)))
+      },
+      error = function(e){
+        print(paste("Error in comparison:", sus, off))
+        print(e)
+        NA
+      })
 
       likelihood_ratio_matrix[as.character(sus), as.character(off)] <- llr
     }
