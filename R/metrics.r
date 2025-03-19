@@ -42,12 +42,12 @@ cllr <- function(LLR_SS, LLR_DS, log = TRUE){
 #' @export
 EER_linear <- function(LR_SS, LR_DS, log = FALSE){
   # (Updated 2025-03-18) generates warning if contains NA
-  if(anyNA(LLR_SS)) warning("EER: LLR_SS contains NA values")
-  if(anyNA(LLR_DS)) warning("EER: LLR_DS contains NA values")
+  if(anyNA(LR_SS)) warning("EER: LLR_SS contains NA values")
+  if(anyNA(LR_DS)) warning("EER: LLR_DS contains NA values")
   
   # (Updated 2025-03-18) removes any NA if present
-  LLR_SS <- LLR_SS[!is.na(LLR_SS)]
-  LLR_DS <- LLR_DS[!is.na(LLR_DS)]
+  LR_SS <- LR_SS[!is.na(LR_SS)]
+  LR_DS <- LR_DS[!is.na(LR_DS)]
   
   # Convert to log LR if not already logged
   if(!log){
